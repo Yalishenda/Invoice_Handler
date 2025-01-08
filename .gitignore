@@ -159,10 +159,13 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 /.idea
-/invoice_handler/config
-page_example.md
 page_example.md
 db.json
 invoice_handler/temp.py
 poetry.lock
-/invoice_handler/logs
+invoice_handler/config/__init__.py
+invoice_handler/config/client_secret_280337572135-bm9uigi0o89lmeep72j2fphs54sh7po4.apps.googleusercontent.com.json
+invoice_handler/logs/emails.json
+invoice_handler/logs/payments.json
+invoice_handler/logs/sessions.json
+invoice_handler/logs/status_updates.json
