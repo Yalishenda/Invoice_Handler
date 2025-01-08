@@ -19,8 +19,8 @@ def extract_dataframe(pdf_paths):
     Returns:
         pd.DataFrame: Rows of data not already logged, ready for further processing.
     """
-    # Example standard English headers (adjust these to match your real column meanings)
-    STANDARD_HEADERS = [
+    # English headers for PDF data
+    standard_headers = [
         "for_payment",
         "details",
         "invoice_amount_w_vat",
@@ -29,7 +29,7 @@ def extract_dataframe(pdf_paths):
         "reference"
     ]
 
-    combined_df = pd.DataFrame(columns=STANDARD_HEADERS)
+    combined_df = pd.DataFrame(columns=standard_headers)
     new_rows = []
 
     # Initialize logs
@@ -54,7 +54,7 @@ def extract_dataframe(pdf_paths):
                 df = df.drop(df.index[0])  # Drop the first row (assumed to be headers in the extracted table)
                 df = df.reset_index(drop=True)
                 df = df.apply(lambda col: col.map(lambda x: get_display(x) if isinstance(x, str) else x))
-                df.columns = STANDARD_HEADERS
+                df.columns = standard_headers
 
                 # Append the tail of the table from page 2 if it exists
                 if len(tables) > 1:
@@ -99,24 +99,5 @@ def extract_dataframe(pdf_paths):
         shutil.rmtree(temp_dir, ignore_errors=True)
 
     # Reset the index of the returned DataFrame
-    return pd.DataFrame(new_rows, columns=STANDARD_HEADERS).reset_index(drop=True)
+    return pd.DataFrame(new_rows, columns=standard_headers).reset_index(drop=True)
 
-
-"""
-Example usage
-if __name__ == "__main__":
-   pdf_files = ['apremit_hb_mail_4907059.pdf', 'apremit_hb_mail_4886152.pdf',
-                 'apremit_hb_mail_4757672.pdf', 'apremit_hb_mail_4739261.pdf', 'apremit_hb_mail_4712999.pdf',
-                 'apremit_hb_mail_4685355.pdf', 'apremit_hb_mail_4660786.pdf', 'apremit_hb_mail_4611725.pdf',
-                 'apremit_hb_mail_4543746.pdf', 'apremit_hb_mail_4520675.pdf', 'apremit_hb_mail_4500688.pdf',
-                 'apremit_hb_mail_4476180.pdf', 'apremit_hb_mail_4432088.pdf', 'apremit_hb_mail_4405159.pdf',
-                 'apremit_hb_mail_4382287.pdf', 'apremit_hb_mail_4306915.pdf', 'apremit_hb_mail_4170645.pdf',
-                 'apremit_hb_mail_4133808.pdf', 'apremit_hb_mail_4106274.pdf', 'apremit_hb_mail_4085299.pdf',
-                 'apremit_hb_mail_4064728.pdf', 'apremit_hb_mail_4038645.pdf', 'apremit_hb_mail_4012184.pdf',
-                 'apremit_hb_mail_3988782.pdf', 'apremit_hb_mail_3965282.pdf', 'apremit_hb_mail_3955976.pdf',
-                 'apremit_hb_mail_3950754.pdf', 'apremit_hb_mail_3946710.pdf', 'apremit_hb_mail_3892783.pdf']
-    new_data = extract_combined_dataframe_with_logs(pdf_files)
-    print("New rows to process:", len(new_data))
-    new_data.to_csv("new_rows.csv", index=False)
-    
-"""

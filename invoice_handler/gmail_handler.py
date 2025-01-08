@@ -1,19 +1,13 @@
 from __future__ import print_function
 
 import os.path
-# import pickle
 import base64
-# import email
-# import json
 from datetime import datetime
 from invoice_handler.config import gmail_secret_filename, sender_email
 import invoice_handler.log_functions as log
-
-# from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-# If modifying these SCOPES, delete the token file so it re-authenticates.
 # For read/write: "https://www.googleapis.com/auth/gmail.modify"
 # For readonly: "https://www.googleapis.com/auth/gmail.readonly"
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
@@ -28,6 +22,7 @@ def fetch_pdf_attachments(sender: str | None = None):
     if sender is None:
         sender = sender_email
     log.initialize_logs()
+    max_emails = 5
     creds = None
     # Path to the client secrets file
     client_secrets_path = os.path.join("invoice_handler/config", gmail_secret_filename)
@@ -48,7 +43,7 @@ def fetch_pdf_attachments(sender: str | None = None):
         userId='me',
         labelIds=['INBOX'],
         q=f"from:{sender}",
-        maxResults=30
+        maxResults=max_emails
     ).execute()
 
     messages = results.get('messages', [])
@@ -108,22 +103,3 @@ def fetch_pdf_attachments(sender: str | None = None):
                     })
 
     return pdf_filenames
-
-# if __name__ == '__main__':
-
-  #  pdf_files = fetch_pdf_attachments(sender_email)
-  #  print("Downloaded PDF files:", pdf_files)
-
-'''
-Downloaded PDF files: ['apremit_hb_mail_4907059.pdf', 'apremit_hb_mail_4886152.pdf', 
-'apremit_hb_mail_4757672.pdf', 'apremit_hb_mail_4739261.pdf', 'apremit_hb_mail_4712999.pdf', 
-'apremit_hb_mail_4685355.pdf', 'apremit_hb_mail_4660786.pdf', 'apremit_hb_mail_4611725.pdf', 
-'apremit_hb_mail_4543746.pdf', 'apremit_hb_mail_4520675.pdf', 'apremit_hb_mail_4500688.pdf', 
-'apremit_hb_mail_4476180.pdf', 'apremit_hb_mail_4432088.pdf', 'apremit_hb_mail_4405159.pdf', 
-'apremit_hb_mail_4382287.pdf', 'apremit_hb_mail_4306915.pdf', 'apremit_hb_mail_4170645.pdf', 
-'apremit_hb_mail_4133808.pdf', 'apremit_hb_mail_4106274.pdf', 'apremit_hb_mail_4085299.pdf', 
-'apremit_hb_mail_4064728.pdf', 'apremit_hb_mail_4038645.pdf', 'apremit_hb_mail_4012184.pdf', 
-'apremit_hb_mail_3988782.pdf', 'apremit_hb_mail_3965282.pdf', 'apremit_hb_mail_3955976.pdf', 
-'apremit_hb_mail_3950754.pdf', 'apremit_hb_mail_3946710.pdf', 'apremit_hb_mail_3892783.pdf']
-
-'''

@@ -6,9 +6,8 @@ from datetime import datetime
 
 # Initialize logs
 log.initialize_logs()
+start_time = datetime.now().isoformat()  # Start the session logging
 
-# Start the session logging
-start_time = datetime.now().isoformat()
 downloaded = mail.fetch_pdf_attachments()
 
 if downloaded:
@@ -28,6 +27,9 @@ if downloaded:
             if page['status'] != 'paid':
                 pages_to_update.append(page)
                 payment_df.drop(_, inplace=True)
+            else:
+                print(f'Invoice {page["invoice_num"]} already checked as -Paid-')
+                payment_df.drop(_, inplace=True)
 
     # Update pages in Notion
     pages_updated = 0
@@ -38,7 +40,9 @@ if downloaded:
     # Log absent invoices
     absent_invoices = payment_df.to_dict(orient='records')
     if absent_invoices:
-        print("Invoices not found in Notion:", absent_invoices)
+        print("\nInvoices not found in Notion:\n")
+        for invoice in absent_invoices:
+            print(f"#{invoice['invoice_num']} for {invoice['for_payment']} NIS at {invoice['date']}")
 
     # End the session logging
     end_time = datetime.now().isoformat()

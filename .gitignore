@@ -162,3 +162,7 @@ cython_debug/
 /invoice_handler/config
 page_example.md
 page_example.md
+db.json
+invoice_handler/temp.py
+poetry.lock
+/invoice_handler/logs

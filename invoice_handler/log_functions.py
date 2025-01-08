@@ -45,18 +45,3 @@ def log_session(start_time, end_time, pdf_count, invoices_extracted, pages_updat
         "timestamp": datetime.now().isoformat()
     }
     write_log("sessions", entry)
-
-# Example Usage
-# if __name__ == "__main__":
-# Initialize logs
-#    initialize_logs()
-
-# Log some entries
-#   log_status_update("B12345", "INV001", 120.50, "P001")
-#  log_payment("invoice_123.pdf", "INV001", 120.50)
-#  log_email("2025-01-05T14:23:00", "invoice_123.pdf")
-
-# Read logs
-# print("Status Updates Log:", read_log("status_updates"))
-#  print("Payments Log:", read_log("payments"))
-# print("Emails Log:", read_log("emails"))

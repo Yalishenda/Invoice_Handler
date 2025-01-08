@@ -12,6 +12,10 @@ headers = {
 
 
 def get_pages():
+    """
+    Load all pages from Notion DataBase
+    :return: list of dictionaries for every row
+    """
     url = f"https://api.notion.com/v1/databases/{database_id}/query"
     all_results = []
     has_more = True
@@ -101,6 +105,7 @@ def pages_to_df(pages: list) -> pd.DataFrame:
 
 
 def load_data():
+    '''Load data from Notion and return DataFrame'''
     pages = get_pages()
     df = pages_to_df(pages)
     return df
@@ -148,24 +153,4 @@ def update_page_status(page: dict, new_status: str = 'paid'):
         print(f"Failed to update page {page['page_id']}. Status code: {response.status_code}, Response: {response.text}")
 
 
-"""
-
-# Example usage
-pages = get_pages()
-df = pages_to_df(pages)
-
-# Display the DataFrame to the user
-# print(df[['booking_num', 'status', 'total_w_vat', 'invoice_num']].sample(n=10))
-# random_page = df[['page_id', 'booking_num', 'status']].sample(n=1)
-# print(random_page)
-# page_id = '7241cd2b-bd26-40c2-b2ef-b6f6bd832005'
-# status = 'paid'
-
-print(type(df.loc[111]))
-print(df.loc[111])
-page_dict = page_to_dict(pages[111])
-print(page_dict)
-
-update_page_status(df.loc[111])
-
-"""
+# data = load_data()
