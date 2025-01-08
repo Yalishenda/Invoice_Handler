@@ -2,7 +2,7 @@
 name = "invoice-handler"
 version = "0.1.0"
 description = ""
-authors = ["Aleksandr Zubkov <yalishenda.z@gmail.com>"]
+authors = ["Aleksandr Zubkov <aleksandr.zubkov.neuro@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
